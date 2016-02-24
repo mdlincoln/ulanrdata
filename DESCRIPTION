@@ -1,0 +1,14 @@
+Package: ulanrdata
+Type: Package
+Title: Data for Ulanr
+Version: 0.1
+Date: 2015-05-02
+Authors@R: person("Matthew", "Lincoln", email = "mlincol1@umd.edu",
+  role = c("aut", "cre"))
+Description: Database to support the local, string-distance-based implementation
+    of ulanr
+License: file LICENSE
+LazyData: TRUE
+URL: https://github.com/mdlincoln/ulanrdata
+BugReports: https://github.com/mdlincoln/ulanrdata/issues
+RoxygenNote: 5.0.1
