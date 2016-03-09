@@ -24,7 +24,7 @@ WHERE {
 id_altname <- read_csv(sparql_url(id_altname_query), col_types = "ic")
 
 id_attributes_query <- "
-SELECT DISTINCT ?id ?pref_name ?birth ?death ?nationality
+SELECT DISTINCT ?id ?pref_name ?birth ?death ?nationality ?gender
   WHERE {
     ?artist skos:inScheme ulan: ;
       dc:identifier ?id ;
@@ -36,6 +36,10 @@ SELECT DISTINCT ?id ?pref_name ?birth ?death ?nationality
       ?artist foaf:focus [gvp:biographyPreferred ?bio] .
       ?bio gvp:estStart ?birth ;
            gvp:estEnd ?death .
+
+      OPTIONAL {
+        ?bio schema:gender [gvp:prefLabelGVP [gvp:term ?gender]] .
+      }
     }
 
   OPTIONAL {
@@ -44,7 +48,7 @@ SELECT DISTINCT ?id ?pref_name ?birth ?death ?nationality
   }
 }"
 
-id_attributes <- read_csv(sparql_url(id_attributes_query), col_types = "iciic")
+id_attributes <- read_csv(sparql_url(id_attributes_query), col_types = "iciicc")
 
 library(dplyr)
 
