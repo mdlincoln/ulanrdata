@@ -5,7 +5,7 @@ library(readr)
 
 sparql_url <- function(query) {
   endpoint <- "http://vocab.getty.edu/sparql"
-  escaped_query <- URLencode(query)
+  escaped_query <- URLencode(query, reserved = TRUE)
   paste0(endpoint, ".csv?query=", escaped_query)
 }
 
