@@ -24,7 +24,7 @@ WHERE {
 id_altname <- read_csv(sparql_url(id_altname_query), col_types = "ic")
 
 id_attributes_query <- "
-SELECT DISTINCT ?id ?pref_name ?birth ?death ?nationality ?gender
+SELECT DISTINCT ?id ?pref_name ?birth_year ?death_year ?nationality ?gender
   WHERE {
     ?artist skos:inScheme ulan: ;
       dc:identifier ?id ;
@@ -34,8 +34,8 @@ SELECT DISTINCT ?id ?pref_name ?birth ?death ?nationality ?gender
 
     OPTIONAL {
       ?artist foaf:focus [gvp:biographyPreferred ?bio] .
-      ?bio gvp:estStart ?birth ;
-           gvp:estEnd ?death .
+      ?bio gvp:estStart ?birth_year ;
+           gvp:estEnd ?death_year .
 
       OPTIONAL {
         ?bio schema:gender [gvp:prefLabelGVP [gvp:term ?gender]] .
@@ -57,11 +57,7 @@ query_table <- id_altname %>%
   mutate(
     # Strip caps and puncutation, since this alt_name column will be searched
     # via string distance
-    alt_name = tolower(gsub("[[:punct:]]", "", alt_name)),
-    # Some artists are listed with nationality as "undefined" versus a handful
-    # that have no nationality assigned whatsoever. All undefined nats will now
-    # be NA
-    nationality = ifelse(nationality == "undetermined", NA, nationality)) %>%
+    alt_name = tolower(gsub("[[:punct:]]", "", alt_name))) %>%
   distinct()
 
 library(devtools)
